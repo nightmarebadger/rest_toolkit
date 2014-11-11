@@ -181,12 +181,21 @@ class resource(BaseDecorator):
                 ('GET', ViewableResource, default_get_view, self.read_permission),
                 ('PATCH', EditableResource, default_patch_view, self.update_permission),
                 ('PUT', EditableResource, default_put_view, self.update_permission)]:
-            config.add_view(view,
+            # config.add_view(view,
+            #         route_name=state.route_name,
+            #         context=base_class,
+            #         renderer='json',
+            #         request_method=request_method,
+            #         permission=permission)
+            if issubclass(state.resource_class, base_class):
+                config.add_view(
+                    view,
                     route_name=state.route_name,
-                    context=base_class,
+                    context=state.resource_class,
                     renderer='json',
                     request_method=request_method,
-                    permission=permission)
+                    permission=permission
+                )
 
     def __call__(self, cls):
         state = RestState.add_to_resource(cls, self.route_path, self.route_name)
