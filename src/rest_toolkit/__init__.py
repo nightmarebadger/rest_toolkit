@@ -188,6 +188,7 @@ class resource(BaseDecorator):
             #         request_method=request_method,
             #         permission=permission)
             if issubclass(state.resource_class, base_class):
+                state.add_method(request_method, view)
                 config.add_view(
                     view,
                     route_name=state.route_name,
